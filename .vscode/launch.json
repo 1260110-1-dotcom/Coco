@@ -35,5 +35,11 @@
             "name": "Open bouble.html",
             "file": "c:\\Code\\Coco\\bouble.html"
         }
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Open move.html",
+            "file": "c:\\Code\\Coco\\move.html"
+        }
     ]
 }
