@@ -9,12 +9,6 @@
             "request": "launch",
             "name": "Open boom.html",
             "file": "c:\\Code\\Coco\\boom.html"
-        },
-        {
-            "type": "chrome",
-            "request": "launch",
-            "name": "Open snake.html",
-            "file": "c:\\Code\\Coco\\snake.html"
         }
     ]
 }
