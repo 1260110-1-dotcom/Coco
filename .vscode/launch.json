@@ -19,8 +19,8 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Open shape.html",
-            "file": "c:\\Code\\Coco\\shape.html"
+            "name": "Open 2048.html",
+            "file": "c:\\Code\\Coco\\2048.html"
         }
 
         {
@@ -41,5 +41,12 @@
             "name": "Open move.html",
             "file": "c:\\Code\\Coco\\move.html"
         }
+         {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Open shape.html",
+            "file": "c:\\Code\\Coco\\shape.html"
+        }
+
     ]
 }
