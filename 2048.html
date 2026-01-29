@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2048 數字益智遊戲</title>
+    <title>2048 - 完美對齊版</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+            user-select: none;
         }
 
         body {
@@ -20,6 +21,7 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
+            touch-action: none;
         }
 
         .game-container {
@@ -31,7 +33,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         h1 {
@@ -41,7 +43,7 @@
             line-height: 0.8;
         }
 
-        .score-container {
+        .scores-container {
             display: flex;
             gap: 10px;
         }
@@ -52,6 +54,7 @@
             border-radius: 6px;
             text-align: center;
             min-width: 120px;
+            position: relative;
         }
 
         .score-title {
@@ -66,13 +69,14 @@
             color: white;
             font-size: 28px;
             font-weight: bold;
+            letter-spacing: 1px;
         }
 
         .game-intro {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .description {
@@ -103,33 +107,38 @@
             transform: translateY(-2px);
         }
 
-        .control-btn:active {
-            transform: translateY(0);
+        .game-area {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            margin: 0 auto 30px;
         }
 
         .game-board {
+            position: relative;
+            width: 100%;
+            height: 100%;
             background: #bbada0;
             border-radius: 6px;
             padding: 15px;
-            margin-bottom: 40px;
-            position: relative;
-            touch-action: none;
         }
 
         .grid-container {
             position: relative;
             width: 100%;
-            height: 500px;
-            margin: 0 auto;
+            height: 100%;
         }
 
         .grid-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             grid-template-rows: repeat(4, 1fr);
             gap: 15px;
-            width: 100%;
-            height: 100%;
         }
 
         .grid-cell {
@@ -143,24 +152,24 @@
             left: 0;
             width: 100%;
             height: 100%;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(4, 1fr);
-            gap: 15px;
-            padding: 0;
+            padding: 15px;
+            box-sizing: border-box;
         }
 
         .tile {
-            position: relative;
+            position: absolute;
+            width: calc((100% - 75px) / 4); /* 計算準確的寬度 */
+            height: calc((100% - 75px) / 4); /* 計算準確的高度 */
             border-radius: 6px;
             font-weight: bold;
-            font-size: 55px;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: all 0.15s ease;
+            transition: all 0.15s ease-in-out;
             z-index: 2;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            box-sizing: border-box;
         }
 
         .tile-merged {
@@ -169,7 +178,7 @@
 
         @keyframes pop {
             0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
 
@@ -178,23 +187,85 @@
         }
 
         @keyframes appear {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+            0% { 
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% { 
+                transform: scale(1.1);
+            }
+            100% { 
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
-        .tile-2 { background: #eee4da; color: #776e65; }
-        .tile-4 { background: #ede0c8; color: #776e65; }
-        .tile-8 { background: #f2b179; color: #f9f6f2; }
-        .tile-16 { background: #f59563; color: #f9f6f2; }
-        .tile-32 { background: #f67c5f; color: #f9f6f2; }
-        .tile-64 { background: #f65e3b; color: #f9f6f2; }
-        .tile-128 { background: #edcf72; color: #f9f6f2; font-size: 45px; }
-        .tile-256 { background: #edcc61; color: #f9f6f2; font-size: 45px; }
-        .tile-512 { background: #edc850; color: #f9f6f2; font-size: 45px; }
-        .tile-1024 { background: #edc53f; color: #f9f6f2; font-size: 35px; }
-        .tile-2048 { background: #edc22e; color: #f9f6f2; font-size: 35px; }
-        .tile-super { background: #3c3a32; color: #f9f6f2; font-size: 30px; }
+        /* 方塊顏色 */
+        .tile-2 { 
+            background: #eee4da; 
+            color: #776e65;
+            font-size: 55px;
+        }
+        .tile-4 { 
+            background: #ede0c8; 
+            color: #776e65;
+            font-size: 55px;
+        }
+        .tile-8 { 
+            background: #f2b179; 
+            color: #f9f6f2;
+            font-size: 55px;
+        }
+        .tile-16 { 
+            background: #f59563; 
+            color: #f9f6f2;
+            font-size: 50px;
+        }
+        .tile-32 { 
+            background: #f67c5f; 
+            color: #f9f6f2;
+            font-size: 50px;
+        }
+        .tile-64 { 
+            background: #f65e3b; 
+            color: #f9f6f2;
+            font-size: 50px;
+        }
+        .tile-128 { 
+            background: #edcf72; 
+            color: #f9f6f2;
+            font-size: 45px;
+            box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.2381), inset 0 0 0 1px rgba(255, 255, 255, 0.14286);
+        }
+        .tile-256 { 
+            background: #edcc61; 
+            color: #f9f6f2;
+            font-size: 45px;
+            box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.31746), inset 0 0 0 1px rgba(255, 255, 255, 0.19048);
+        }
+        .tile-512 { 
+            background: #edc850; 
+            color: #f9f6f2;
+            font-size: 45px;
+            box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.39683), inset 0 0 0 1px rgba(255, 255, 255, 0.2381);
+        }
+        .tile-1024 { 
+            background: #edc53f; 
+            color: #f9f6f2;
+            font-size: 35px;
+            box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.47619), inset 0 0 0 1px rgba(255, 255, 255, 0.28571);
+        }
+        .tile-2048 { 
+            background: #edc22e; 
+            color: #f9f6f2;
+            font-size: 35px;
+            box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0.55556), inset 0 0 0 1px rgba(255, 255, 255, 0.33333);
+        }
+        .tile-super { 
+            background: #3c3a32; 
+            color: #f9f6f2;
+            font-size: 30px;
+        }
 
         .game-status {
             text-align: center;
@@ -209,6 +280,7 @@
             padding: 10px 20px;
             border-radius: 6px;
             display: inline-block;
+            background: rgba(255, 255, 255, 0.5);
         }
 
         .win {
@@ -262,25 +334,6 @@
             margin-bottom: 15px;
         }
 
-        .instructions ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        .instructions li {
-            margin-bottom: 10px;
-            padding-left: 25px;
-            position: relative;
-        }
-
-        .instructions li:before {
-            content: "→";
-            color: #8f7a66;
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-
         .key-controls {
             display: flex;
             justify-content: center;
@@ -297,7 +350,42 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
+        /* 音效控制 */
+        .sound-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .sound-btn {
+            background: rgba(143, 122, 102, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .sound-btn:hover {
+            background: rgba(159, 138, 118, 0.9);
+            transform: scale(1.1);
+        }
+
         @media (max-width: 520px) {
+            .game-area {
+                width: 90vw;
+                height: 90vw;
+                max-width: 400px;
+                max-height: 400px;
+            }
+            
             .game-header {
                 flex-direction: column;
                 gap: 20px;
@@ -308,7 +396,7 @@
                 font-size: 60px;
             }
             
-            .score-container {
+            .scores-container {
                 width: 100%;
                 justify-content: space-between;
             }
@@ -334,47 +422,52 @@
                 text-align: center;
             }
             
-            .grid-container {
-                height: 400px;
-            }
-            
             .tile {
-                font-size: 35px;
+                font-size: 40px !important;
             }
             
             .tile-128, .tile-256, .tile-512 {
-                font-size: 30px;
+                font-size: 35px !important;
             }
             
             .tile-1024, .tile-2048 {
-                font-size: 25px;
+                font-size: 28px !important;
             }
             
             .tile-super {
-                font-size: 20px;
+                font-size: 24px !important;
             }
         }
 
         @media (max-width: 400px) {
-            .grid-container {
-                height: 350px;
-            }
-            
             .tile {
-                font-size: 30px;
+                font-size: 35px !important;
             }
             
             h1 {
                 font-size: 50px;
             }
+            
+            .sound-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- 音效控制 -->
+    <div class="sound-control">
+        <button class="sound-btn" id="soundBtn" title="音效開關">
+            🔊
+        </button>
+    </div>
+
     <div class="game-container">
         <div class="game-header">
             <h1>2048</h1>
-            <div class="score-container">
+            <div class="scores-container">
                 <div class="score-box">
                     <div class="score-title">分數</div>
                     <div class="score-value" id="score">0</div>
@@ -401,34 +494,24 @@
             <div id="statusMessage">準備開始！</div>
         </div>
 
-        <div class="game-board">
-            <div class="grid-container">
-                <div class="grid-background">
-                    <div class="grid-cell"></div>
-                    <div class="grid-cell"></div>
-                    <div class="grid-cell"></div>
-                    <div class="grid-cell"></div>
-                    <div class="grid-cell"></div>
-                    <div class="grid-cell"></div>
-                    <div class="grid-cell"></div>
-                    <div class="grid-cell"></div>
-                    <div class="grid-cell"></div>
-                    <div class="grid-cell"></div>
-                    <div class="grid-cell"></div>
-                    <div class="grid-cell"></div>
-                    <div class="grid-cell"></div>
-                    <div class="grid-cell"></div>
-                    <div class="grid-cell"></div>
-                    <div class="grid-cell"></div>
-                </div>
-                
-                <div class="tile-container" id="tileContainer">
-                    <!-- 方塊會動態生成在這裡 -->
-                </div>
-                
-                <div class="game-over" id="gameOverScreen">
-                    <h2>遊戲結束！</h2>
-                    <button class="control-btn" id="tryAgainBtn">再試一次</button>
+        <div class="game-area">
+            <div class="game-board">
+                <div class="grid-container">
+                    <div class="grid-background">
+                        <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                        <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                        <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                        <div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div><div class="grid-cell"></div>
+                    </div>
+                    
+                    <div class="tile-container" id="tileContainer">
+                        <!-- 方塊會動態生成在這裡 -->
+                    </div>
+                    
+                    <div class="game-over" id="gameOverScreen">
+                        <h2>遊戲結束！</h2>
+                        <button class="control-btn" id="tryAgainBtn">再試一次</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -436,13 +519,6 @@
         <div class="instructions">
             <h3>🎮 遊戲玩法</h3>
             <p><strong>如何遊玩：</strong> 使用鍵盤方向鍵或 WASD 鍵移動方塊。當兩個相同數字的方塊碰撞時，它們會合併成一個總和的方塊！</p>
-            
-            <ul>
-                <li>每次移動後，會在隨機空白位置生成一個新方塊（2 或 4）</li>
-                <li>當方塊無法再移動時，遊戲結束</li>
-                <li>達成 2048 方塊即獲勝，但可以繼續挑戰更高分數！</li>
-                <li>使用「悔棋」功能可以回到上一步（最多 10 步）</li>
-            </ul>
             
             <div class="key-controls">
                 <div class="key">↑ 或 W</div>
@@ -469,7 +545,8 @@
             moved: false,
             history: [],
             undoSteps: 0,
-            maxUndoSteps: MAX_UNDO_STEPS
+            maxUndoSteps: MAX_UNDO_STEPS,
+            soundEnabled: localStorage.getItem('2048-soundEnabled') !== 'false'
         };
 
         // DOM 元素
@@ -481,6 +558,102 @@
         const newGameBtn = document.getElementById('newGameBtn');
         const undoBtn = document.getElementById('undoBtn');
         const tryAgainBtn = document.getElementById('tryAgainBtn');
+        const soundBtn = document.getElementById('soundBtn');
+
+        // 音效系統
+        const soundEffects = {
+            move: null,
+            merge: null,
+            win: null,
+            lose: null
+        };
+
+        // 初始化音效
+        function initSounds() {
+            try {
+                // 創建音效上下文
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // 創建移動音效
+                soundEffects.move = createBeepSound(400, 0.1, 'sine');
+                
+                // 創建合併音效
+                soundEffects.merge = createBeepSound(600, 0.2, 'square');
+                
+                // 創建勝利音效
+                soundEffects.win = createChordSound([523.25, 659.25, 783.99], 0.5);
+                
+                // 創建失敗音效
+                soundEffects.lose = createBeepSound(200, 0.3, 'sawtooth');
+                
+                console.log('音效系統已初始化');
+            } catch (error) {
+                console.log('音效系統初始化失敗，使用靜音模式');
+                gameState.soundEnabled = false;
+                soundBtn.innerHTML = '🔇';
+            }
+        }
+
+        // 創建單音音效
+        function createBeepSound(frequency, duration, type) {
+            return () => {
+                if (!gameState.soundEnabled) return;
+                
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.value = frequency;
+                    oscillator.type = type;
+                    
+                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+                    
+                    oscillator.start();
+                    oscillator.stop(audioContext.currentTime + duration);
+                } catch (error) {
+                    console.log('播放音效失敗');
+                }
+            };
+        }
+
+        // 創建和弦音效
+        function createChordSound(frequencies, duration) {
+            return () => {
+                if (!gameState.soundEnabled) return;
+                
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const gainNode = audioContext.createGain();
+                    
+                    gainNode.connect(audioContext.destination);
+                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+                    
+                    frequencies.forEach(freq => {
+                        const oscillator = audioContext.createOscillator();
+                        oscillator.connect(gainNode);
+                        oscillator.frequency.value = freq;
+                        oscillator.type = 'sine';
+                        oscillator.start();
+                        oscillator.stop(audioContext.currentTime + duration);
+                    });
+                } catch (error) {
+                    console.log('播放和弦音效失敗');
+                }
+            };
+        }
+
+        // 播放音效
+        function playSound(soundName) {
+            if (soundEffects[soundName]) {
+                soundEffects[soundName]();
+            }
+        }
 
         // 初始化遊戲
         function initGame() {
@@ -510,6 +683,8 @@
             
             statusMessage.textContent = '遊戲開始！移動方塊來合併相同數字';
             statusMessage.className = '';
+            
+            playSound('move');
         }
 
         // 添加隨機方塊
@@ -538,50 +713,63 @@
             return null;
         }
 
+        // 計算方塊位置 - 這是關鍵修復
+        function calculateTilePosition(row, col) {
+            const containerWidth = tileContainer.clientWidth;
+            const containerHeight = tileContainer.clientHeight;
+            
+            // 計算每個單元格的實際大小（考慮間距）
+            const cellWidth = (containerWidth - 15 * (GRID_SIZE - 1)) / GRID_SIZE;
+            const cellHeight = (containerHeight - 15 * (GRID_SIZE - 1)) / GRID_SIZE;
+            
+            // 計算位置（包括間距）
+            const left = col * (cellWidth + 15);
+            const top = row * (cellHeight + 15);
+            
+            return {
+                left: left,
+                top: top,
+                width: cellWidth,
+                height: cellHeight
+            };
+        }
+
         // 渲染所有方塊
         function renderTiles() {
             // 清除所有現有方塊
             tileContainer.innerHTML = '';
-            
-            // 計算每個單元格的大小
-            const containerWidth = tileContainer.clientWidth;
-            const containerHeight = tileContainer.clientHeight;
-            const cellSize = (containerWidth - 15 * (GRID_SIZE - 1)) / GRID_SIZE;
             
             // 渲染所有非零方塊
             for (let r = 0; r < GRID_SIZE; r++) {
                 for (let c = 0; c < GRID_SIZE; c++) {
                     const value = gameState.grid[r][c];
                     if (value !== 0) {
+                        const position = calculateTilePosition(r, c);
+                        
                         const tile = document.createElement('div');
                         tile.className = `tile tile-${value}`;
                         
-                        // 設置方塊位置 - 確保精確對齊
-                        const left = c * (cellSize + 15);
-                        const top = r * (cellSize + 15);
-                        
-                        tile.style.position = 'absolute';
-                        tile.style.width = `${cellSize}px`;
-                        tile.style.height = `${cellSize}px`;
-                        tile.style.left = `${left}px`;
-                        tile.style.top = `${top}px`;
+                        // 設置精確的位置和大小
+                        tile.style.width = `${position.width}px`;
+                        tile.style.height = `${position.height}px`;
+                        tile.style.left = `${position.left}px`;
+                        tile.style.top = `${position.top}px`;
                         tile.textContent = value;
                         
-                        // 根據數字大小調整字體
-                        if (value >= 128) {
-                            tile.style.fontSize = '45px';
-                        }
-                        if (value >= 1024) {
-                            tile.style.fontSize = '35px';
-                        }
-                        if (value >= 10000) {
-                            tile.style.fontSize = '30px';
-                        }
+                        // 動態調整字體大小
+                        const fontSize = Math.min(55, Math.floor(position.width * 0.4));
+                        tile.style.fontSize = `${fontSize}px`;
+                        tile.style.lineHeight = `${position.height}px`;
                         
                         tileContainer.appendChild(tile);
                     }
                 }
             }
+            
+            // 窗口大小改變時重新渲染
+            window.addEventListener('resize', function() {
+                setTimeout(renderTiles, 100);
+            });
         }
 
         // 移動方塊
@@ -610,13 +798,15 @@
             }
             
             if (moved) {
+                playSound('move');
+                
                 // 保存狀態到歷史記錄
                 saveStateToHistory();
                 
                 // 生成新方塊
                 const newTile = addRandomTile();
                 
-                // 渲染方塊
+                // 重新渲染方塊
                 renderTiles();
                 
                 // 更新分數
@@ -635,8 +825,8 @@
                     setTimeout(() => {
                         const tiles = document.querySelectorAll('.tile');
                         tiles.forEach(tile => {
-                            const value = parseInt(tile.textContent);
-                            if (value === newTile.value) {
+                            const tileValue = parseInt(tile.textContent);
+                            if (tileValue === newTile.value) {
                                 tile.classList.add('tile-new');
                                 setTimeout(() => {
                                     tile.classList.remove('tile-new');
@@ -667,20 +857,21 @@
                 for (let i = 0; i < column.length - 1; i++) {
                     if (column[i] === column[i + 1]) {
                         column[i] *= 2;
-                        column.splice(i + 1, 1);
                         gameState.score += column[i];
+                        column.splice(i + 1, 1);
                         moved = true;
+                        playSound('merge');
                     }
                 }
                 
                 // 將合併後的值放回網格
                 for (let r = 0; r < GRID_SIZE; r++) {
-                    gameState.grid[r][c] = r < column.length ? column[r] : 0;
-                }
-                
-                // 檢查是否有移動發生
-                if (column.length > 0) {
-                    moved = true;
+                    const oldValue = gameState.grid[r][c];
+                    const newValue = r < column.length ? column[r] : 0;
+                    gameState.grid[r][c] = newValue;
+                    if (oldValue !== newValue) {
+                        moved = true;
+                    }
                 }
             }
             
@@ -704,22 +895,23 @@
                 for (let i = 0; i < column.length - 1; i++) {
                     if (column[i] === column[i + 1]) {
                         column[i] *= 2;
-                        column.splice(i + 1, 1);
                         gameState.score += column[i];
+                        column.splice(i + 1, 1);
                         moved = true;
+                        playSound('merge');
                     }
                 }
                 
                 // 將合併後的值放回網格（從底部開始）
                 let index = 0;
                 for (let r = GRID_SIZE - 1; r >= 0; r--) {
-                    gameState.grid[r][c] = index < column.length ? column[index] : 0;
+                    const oldValue = gameState.grid[r][c];
+                    const newValue = index < column.length ? column[index] : 0;
+                    gameState.grid[r][c] = newValue;
                     index++;
-                }
-                
-                // 檢查是否有移動發生
-                if (column.length > 0) {
-                    moved = true;
+                    if (oldValue !== newValue) {
+                        moved = true;
+                    }
                 }
             }
             
@@ -743,20 +935,21 @@
                 for (let i = 0; i < row.length - 1; i++) {
                     if (row[i] === row[i + 1]) {
                         row[i] *= 2;
-                        row.splice(i + 1, 1);
                         gameState.score += row[i];
+                        row.splice(i + 1, 1);
                         moved = true;
+                        playSound('merge');
                     }
                 }
                 
                 // 將合併後的值放回網格
                 for (let c = 0; c < GRID_SIZE; c++) {
-                    gameState.grid[r][c] = c < row.length ? row[c] : 0;
-                }
-                
-                // 檢查是否有移動發生
-                if (row.length > 0) {
-                    moved = true;
+                    const oldValue = gameState.grid[r][c];
+                    const newValue = c < row.length ? row[c] : 0;
+                    gameState.grid[r][c] = newValue;
+                    if (oldValue !== newValue) {
+                        moved = true;
+                    }
                 }
             }
             
@@ -780,22 +973,23 @@
                 for (let i = 0; i < row.length - 1; i++) {
                     if (row[i] === row[i + 1]) {
                         row[i] *= 2;
-                        row.splice(i + 1, 1);
                         gameState.score += row[i];
+                        row.splice(i + 1, 1);
                         moved = true;
+                        playSound('merge');
                     }
                 }
                 
                 // 將合併後的值放回網格（從右邊開始）
                 let index = 0;
                 for (let c = GRID_SIZE - 1; c >= 0; c--) {
-                    gameState.grid[r][c] = index < row.length ? row[index] : 0;
+                    const oldValue = gameState.grid[r][c];
+                    const newValue = index < row.length ? row[index] : 0;
+                    gameState.grid[r][c] = newValue;
                     index++;
-                }
-                
-                // 檢查是否有移動發生
-                if (row.length > 0) {
-                    moved = true;
+                    if (oldValue !== newValue) {
+                        moved = true;
+                    }
                 }
             }
             
@@ -836,12 +1030,13 @@
             
             gameState.undoSteps++;
             
-            // 渲染方塊
+            // 重新渲染方塊
             renderTiles();
             updateDisplay();
             updateUndoButton();
             
             statusMessage.textContent = `已悔棋 (${gameState.undoSteps}/${gameState.maxUndoSteps})`;
+            playSound('move');
         }
 
         // 更新悔棋按鈕
@@ -860,6 +1055,7 @@
                         gameState.won = true;
                         statusMessage.textContent = '恭喜！你達成了 2048！';
                         statusMessage.className = 'win';
+                        playSound('win');
                         
                         // 可以選擇是否繼續遊戲
                         setTimeout(() => {
@@ -877,6 +1073,7 @@
                 gameState.gameOver = true;
                 gameOverScreen.style.display = 'flex';
                 statusMessage.textContent = '遊戲結束！';
+                playSound('lose');
                 
                 // 更新最高分
                 if (gameState.score > gameState.bestScore) {
@@ -923,6 +1120,20 @@
             scoreElement.textContent = gameState.score;
             bestScoreElement.textContent = gameState.bestScore;
         }
+
+        // 音效控制
+        soundBtn.addEventListener('click', () => {
+            gameState.soundEnabled = !gameState.soundEnabled;
+            soundBtn.innerHTML = gameState.soundEnabled ? '🔊' : '🔇';
+            
+            // 保存設置到 localStorage
+            localStorage.setItem('2048-soundEnabled', gameState.soundEnabled);
+            
+            // 播放測試音效
+            if (gameState.soundEnabled) {
+                playSound('move');
+            }
+        });
 
         // 鍵盤控制
         document.addEventListener('keydown', (event) => {
@@ -1011,14 +1222,20 @@
         undoBtn.addEventListener('click', undo);
         tryAgainBtn.addEventListener('click', initGame);
 
-        // 窗口大小調整時重新渲染
-        window.addEventListener('resize', renderTiles);
-
         // 初始化遊戲
-        initGame();
-        
-        // 初始渲染
-        setTimeout(renderTiles, 100);
+        window.addEventListener('load', () => {
+            // 初始化音效
+            initSounds();
+            
+            // 初始化音效按鈕
+            soundBtn.innerHTML = gameState.soundEnabled ? '🔊' : '🔇';
+            
+            // 初始化遊戲
+            initGame();
+            
+            // 初始渲染（延遲確保容器尺寸已計算）
+            setTimeout(renderTiles, 100);
+        });
     </script>
 </body>
 </html>
