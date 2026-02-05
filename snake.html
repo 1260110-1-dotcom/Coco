@@ -198,10 +198,12 @@
         let nextDirection = 'RIGHT';
         let gameRunning = false;
         let gamePaused = false;
-        let gameLoop;
+        let gameLoopId = null;
         let speed = 100; // 毫秒
         let score = 0;
         let highScore = localStorage.getItem('snakeHighScore') || 0;
+        let lastUpdateTime = 0;
+        let accumulatedTime = 0;
         
         // 初始化顯示
         highScoreElement.textContent = highScore;
@@ -495,8 +497,6 @@
                 // 每吃5個食物稍微加快速度（可選）
                 if (score % 50 === 0 && speed > 30) {
                     speed -= 10;
-                    clearInterval(gameLoop);
-                    gameLoop = setInterval(updateGame, speed);
                     updateSpeedText();
                 }
             } else {
@@ -519,14 +519,43 @@
         // 遊戲結束
         function gameOver() {
             gameRunning = false;
-            clearInterval(gameLoop);
+            if (gameLoopId) {
+                cancelAnimationFrame(gameLoopId);
+                gameLoopId = null;
+            }
             gameOverElement.textContent = `遊戲結束！最終分數: ${score}`;
         }
         
-        // 更新遊戲循環
-        function updateGame() {
-            update();
+        // 遊戲主循環（使用 requestAnimationFrame）
+        function gameLoop(timestamp) {
+            if (!gameRunning || gamePaused) {
+                gameLoopId = null;
+                return;
+            }
+            
+            // 初始化時間
+            if (lastUpdateTime === 0) {
+                lastUpdateTime = timestamp;
+            }
+            
+            // 計算時間差
+            const deltaTime = timestamp - lastUpdateTime;
+            lastUpdateTime = timestamp;
+            
+            // 累積時間
+            accumulatedTime += deltaTime;
+            
+            // 根據速度更新遊戲
+            while (accumulatedTime >= speed) {
+                update();
+                accumulatedTime -= speed;
+            }
+            
+            // 繪製遊戲
             draw();
+            
+            // 繼續循環
+            gameLoopId = requestAnimationFrame(gameLoop);
         }
         
         // 開始遊戲
@@ -540,16 +569,19 @@
             initGame();
             gameRunning = true;
             gamePaused = false;
+            lastUpdateTime = 0;
+            accumulatedTime = 0;
             
-            // 清除可能存在的舊計時器
-            if (gameLoop) {
-                clearInterval(gameLoop);
+            // 清除可能存在的舊循環
+            if (gameLoopId) {
+                cancelAnimationFrame(gameLoopId);
             }
             
-            gameLoop = setInterval(updateGame, speed);
+            // 開始遊戲循環
+            gameLoopId = requestAnimationFrame(gameLoop);
             updateSpeedText();
             
-            console.log('遊戲開始');
+            console.log('遊戲開始（使用 requestAnimationFrame）');
         }
         
         // 暫停/繼續遊戲
@@ -577,19 +609,24 @@
         function restartGame() {
             console.log('restartGame called');
             
-            // 清除計時器
-            if (gameLoop) {
-                clearInterval(gameLoop);
+            // 清除動畫幀
+            if (gameLoopId) {
+                cancelAnimationFrame(gameLoopId);
+                gameLoopId = null;
             }
             
             initGame();
             gameRunning = true;
             gamePaused = false;
-            gameLoop = setInterval(updateGame, speed);
+            lastUpdateTime = 0;
+            accumulatedTime = 0;
+            
+            // 開始新的遊戲循環
+            gameLoopId = requestAnimationFrame(gameLoop);
             document.getElementById('pauseBtn').textContent = '暫停';
             gameOverElement.textContent = '';
             
-            console.log('遊戲重新開始');
+            console.log('遊戲重新開始（使用 requestAnimationFrame）');
         }
         
         // 改變速度
@@ -597,11 +634,8 @@
             console.log('改變速度為:', newSpeed);
             speed = newSpeed;
             
-            if (gameRunning) {
-                clearInterval(gameLoop);
-                gameLoop = setInterval(updateGame, speed);
-            }
-            
+            // 不需要重新啟動遊戲循環，因為requestAnimationFrame會自動適應新的速度
+            // 速度變更會在下一次遊戲循環中生效
             updateSpeedText();
         }
         
