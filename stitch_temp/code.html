@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Coco's Game Center Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f0426e",
+                        "background-light": "#fdf8f9",
+                        "background-dark": "#221015",
+                        "pastel-blue": "#e0f2fe",
+                        "pastel-pink": "#fce7f3",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .custom-gradient {
+            background: linear-gradient(180deg, #fdf8f9 0%, #e0f2fe 100%);
+        }
+        .dark .custom-gradient {
+            background: linear-gradient(180deg, #221015 0%, #1a0b0e 100%);
+        }
+        .bg-clouds {
+            background-image: radial-gradient(circle at 20% 10%, rgba(255,255,255,0.8) 0%, transparent 20%),
+                              radial-gradient(circle at 80% 40%, rgba(255,255,255,0.8) 0%, transparent 15%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-display bg-background-light dark:bg-background-dark text-[#1b0d11] dark:text-white min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden custom-gradient bg-clouds">
+<!-- Top Bar -->
+<div class="flex items-center p-4 pb-2 justify-between">
+<div class="flex size-12 shrink-0 items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="Cute mascot character Coco pink icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAOWCrYqOUtdwiNDHmiqabSMKNYI_klGgkMP6Z_WRza12akKYilIxxaa_raM3gC6uFlP6ajK-AQZD7zFR9bAmLr1IFcy3sjCNsdvkzkcdW1srqQ-M4RcSgYa9rDILnGJi_6VntKW2jQzXdDmu6acSthD5j6T7EQK_JPwgk6zwiqekZlFf77dg5R3sVFQ97EblnHIohMoYuzIA-W5neNgV2X9Cff2VlO1LECZRPqlBYiHzEn2i3W1PnjWjV0I_Kz3U-b5i1F6BcpoBs")'></div>
+</div>
+<h2 class="text-primary text-xl font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Coco's Game Center</h2>
+<div class="flex w-12 items-center justify-end">
+<button class="flex items-center justify-center rounded-full h-10 w-10 bg-white/50 dark:bg-white/10 text-primary">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</div>
+<!-- Featured Banner -->
+<div class="@container">
+<div class="px-4 py-3">
+<div class="w-full bg-center bg-no-repeat bg-cover flex flex-col justify-end overflow-hidden rounded-xl min-h-[180px] shadow-lg relative group" data-alt="Vibrant summer gaming event banner with sparkles" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA204LmLSNaTacMtRIACIvPynZ5uQc3b0OndEOMp5H5OO-CS-LTmcb66lRGg75kmyV5MElZ_PO8Qxjecx1S2t_LSKZtUspQqTD4Q7JzUYU5XQzcJ4kCc6sxYtxnGH_rKnibpKQpcj-qBcZGB0wiyJKm91l4fNXwzv33iQcZ52W5lXNTdBsC9VCYbn16D5OtuGW0E4DQJV_qAIe4Xg7ovBG8aHpbN-v1JmhI1_0kxpVJ20Mua--t8skgSKpbkxo_L8Jy0AaXbKHub5o")'>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+<div class="relative p-4">
+<span class="bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">Live Now</span>
+<h3 class="text-white text-lg font-bold mt-1">Starlight Kingdom Quest</h3>
+</div>
+</div>
+</div>
+</div>
+<!-- Section Title -->
+<div class="flex items-center justify-between px-4 pt-4 pb-2">
+<h2 class="text-[#1b0d11] dark:text-pink-100 text-[22px] font-bold leading-tight tracking-[-0.015em]">New &amp; Notable</h2>
+<button class="text-primary text-sm font-semibold">View All</button>
+</div>
+<!-- Horizontal Scroll List -->
+<div class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden">
+<div class="flex items-stretch p-4 gap-4">
+<!-- Card 1 -->
+<div class="flex h-full flex-1 flex-col gap-3 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-white/40 shadow-sm min-w-[180px]">
+<div class="w-full bg-center bg-no-repeat aspect-[4/3] bg-cover rounded-t-xl" data-alt="Colorful match 3 puzzle game icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuApc0DJWxM4jFt65zhxiNdVM5CUE1v-cp5ZJqyEKBJp0V1dxU3pOcrykqHifBdRe7wWroy_xmGweNtRL005wXdSO8UUdROUT-uJTMNCffyRISP0beJEOs5pKH3VCXNK6X7ceuL5qlOulSuGixByoAeyQPt-JHuGh1hzapYj0Gd9V_iYmYGq9cecTW0zYd_muYZug7_Q00AmPb2-FIt5oNSnGaSWWjUjwiN6eq87YZC0Nk81Z8-k7hGQuo0rcJiuCjMpRr9EmA5awic")'></div>
+<div class="flex flex-col flex-1 justify-between p-3 pt-0 gap-3">
+<div>
+<p class="text-[#1b0d11] dark:text-white text-base font-bold leading-tight">Dreamy Match</p>
+<p class="text-primary/70 text-xs font-medium">Puzzle • 4.8★</p>
+</div>
+<button class="flex w-full cursor-pointer items-center justify-center rounded-lg h-9 bg-primary text-white text-sm font-bold shadow-md active:scale-95 transition-transform">
+<span>Play</span>
+</button>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="flex h-full flex-1 flex-col gap-3 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-white/40 shadow-sm min-w-[180px]">
+<div class="w-full bg-center bg-no-repeat aspect-[4/3] bg-cover rounded-t-xl" data-alt="Cute kitten rescue simulation game icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAL71Es9klW7Uws7okFh8MMNDXIXnmEyVRvfsVWV3Cwig4-NCR-AO0zoVM2CjX4M5qP5F6la-FenLGcyDSVgJwUJZhbKZixK3RsZp18ENhWgt09TCCkuvbrxQVulNp3yh0b5Vm3_ABCrFnh3nBWqy5yEherggrsXK3Yuu10h_qk5P4QUAKuAf-DmQx5PpoxIrpcaQ-IwlgEnEH2H9Pxn0mgop_RZLSrZud3k9376n3aStayXd3RGk7m8uYlfOTcPL7_btHY8tIRayQ")'></div>
+<div class="flex flex-col flex-1 justify-between p-3 pt-0 gap-3">
+<div>
+<p class="text-[#1b0d11] dark:text-white text-base font-bold leading-tight">Pet Rescue</p>
+<p class="text-primary/70 text-xs font-medium">Casual • 4.9★</p>
+</div>
+<button class="flex w-full cursor-pointer items-center justify-center rounded-lg h-9 bg-primary text-white text-sm font-bold shadow-md active:scale-95 transition-transform">
+<span>Play</span>
+</button>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="flex h-full flex-1 flex-col gap-3 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-white/40 shadow-sm min-w-[180px]">
+<div class="w-full bg-center bg-no-repeat aspect-[4/3] bg-cover rounded-t-xl" data-alt="Pastel colored endless runner game icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCxakLYtOVCPoyba6HdyWkLDrELegK3OBk_Qvk-c758oku5Bc3fcehKBl2JWNm1Pw8uF5XECuJIDGWA5n53QgHlJ30nFEgm-TVAnEDqykRtXY7c6rn1yAvghpM8HUA3mfg62d1rnOhOvj-Uvy4w8AEh1pvvvA8OfaVgXAPYSnDbifsjt26jEMm7wULMG052N-2bgGSZsY1U3rXhpxvFid0uhxn9fZkTHQQYa0mQPvok7-g4bTzBpb6-c8oS3yoqqUb7TJNWdbvTIno")'></div>
+<div class="flex flex-col flex-1 justify-between p-3 pt-0 gap-3">
+<div>
+<p class="text-[#1b0d11] dark:text-white text-base font-bold leading-tight">Cloud Runner</p>
+<p class="text-primary/70 text-xs font-medium">Action • 4.5★</p>
+</div>
+<button class="flex w-full cursor-pointer items-center justify-center rounded-lg h-9 bg-primary text-white text-sm font-bold shadow-md active:scale-95 transition-transform">
+<span>Play</span>
+</button>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="flex h-full flex-1 flex-col gap-3 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-white/40 shadow-sm min-w-[180px]">
+<div class="w-full bg-center bg-no-repeat aspect-[4/3] bg-cover rounded-t-xl" data-alt="Bubble shooter game with stars icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBiXq6Ibnt7NmCjPGIJf8miWdVLNLaVyToMSU2fDpxstdtBuFCVshtWs2Vsn4qTE4jdmZlGJXDNT2_uTheY6j-bD1HmQRl-1hUuBli8AiqHegh-RZs2lBYAaxY8H7lrhOSwqP_fhkK1yQkx9N1egQqOIO59G_nFYv8svW83fpbHj3uIx3n8xO4kIPnG0nLsj3COhitRojyexJvA7RCBj_qmNg2wzQ_X7uxA7Zc-3KW_9k8ec28BCtMUvjAWPSQudQ5xNW7Uk656QIQ")'></div>
+<div class="flex flex-col flex-1 justify-between p-3 pt-0 gap-3">
+<div>
+<p class="text-[#1b0d11] dark:text-white text-base font-bold leading-tight">Bubble Pop</p>
+<p class="text-primary/70 text-xs font-medium">Arcade • 4.7★</p>
+</div>
+<button class="flex w-full cursor-pointer items-center justify-center rounded-lg h-9 bg-primary text-white text-sm font-bold shadow-md active:scale-95 transition-transform">
+<span>Play</span>
+</button>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="flex h-full flex-1 flex-col gap-3 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-white/40 shadow-sm min-w-[180px]">
+<div class="w-full bg-center bg-no-repeat aspect-[4/3] bg-cover rounded-t-xl" data-alt="Cute bakery cafe simulation game icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDGsI__m0LcT07cq5SFT60j0UnDKu5PwXQ7kXCHoqc8BNpB8f6oezgik_YQ4WBCz-MWBRkVELBMIf59wyAFDlCl3s4fmOvY2NZIpTygsbpzXym9uWyQNSRf2izAYbVbvyMqX7Kq07cW1Ve4FLtY5HKeBfXF-inhqcVXRoy5N8s6TBrktdzAYbOgAy-HBJvrH5UgFiGq7uoIafA2JxA7MLBEfsJfK15Utwiw92hF9F5viQMaXBlRq13v37XiXMM84ktnK-LDMmkUQGc")'></div>
+<div class="flex flex-col flex-1 justify-between p-3 pt-0 gap-3">
+<div>
+<p class="text-[#1b0d11] dark:text-white text-base font-bold leading-tight">Coco Bakery</p>
+<p class="text-primary/70 text-xs font-medium">Sim • 5.0★</p>
+</div>
+<button class="flex w-full cursor-pointer items-center justify-center rounded-lg h-9 bg-primary text-white text-sm font-bold shadow-md active:scale-95 transition-transform">
+<span>Play</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Decorative Elements Section -->
+<div class="px-4 py-2 flex justify-center gap-8 opacity-40">
+<span class="material-symbols-outlined text-primary text-3xl">cloud</span>
+<span class="material-symbols-outlined text-primary text-2xl">star</span>
+<span class="material-symbols-outlined text-primary text-3xl">cloud</span>
+</div>
+<!-- Continue Playing Section -->
+<h3 class="text-[#1b0d11] dark:text-pink-100 text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-2">Recently Played</h3>
+<div class="px-4 pb-20 space-y-3">
+<div class="flex items-center gap-4 bg-white/40 dark:bg-white/5 p-3 rounded-xl border border-white/30">
+<div class="size-16 rounded-lg bg-center bg-cover" data-alt="Miniature match 3 game icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAapm8hACzalFcMg5vz9_t_cgoUCiSOshZDoTegs8orSqv6WR4lAPoR5U3O7qljvxtlvRNi8RpT9O1DaCPeowXjFw-7H5LLWRWmK8sEAHlyQ81njKcfke1E4eeImqX3Imn8sKHDgxg5tIrgj_BOuzt3daJtgIu6ZNVNbW9uwGLEI3nxcQhqKzI_QN8mkmRwq9MqhKVfg7TVCkdZnV_Y70nI2mF98jqUv8nIWlF29vyiEOpaH7DBxRvrSX-gDG0eN_kSmOe5ZKqgrek")'></div>
+<div class="flex-1">
+<p class="font-bold text-sm">Dreamy Match</p>
+<div class="w-full bg-gray-200 dark:bg-gray-700 h-1.5 rounded-full mt-1">
+<div class="bg-primary h-full rounded-full w-3/4"></div>
+</div>
+<p class="text-[10px] text-gray-500 mt-1">Level 42 • 75% complete</p>
+</div>
+<button class="bg-primary/10 text-primary p-2 rounded-full">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+</div>
+<div class="flex items-center gap-4 bg-white/40 dark:bg-white/5 p-3 rounded-xl border border-white/30">
+<div class="size-16 rounded-lg bg-center bg-cover" data-alt="Miniature pet rescue game icon" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAuQZ3Obj_x-NYt4agB6QjJazCdSrc08l16dwq4zr20rI7waAiuqsLxXIoNXoi0kQHDxCIwEpCIqy20sE-X6RTCI6okqXVHuAvpvgRvHeM1yjTfBosbmA891sjsEPfmN1ktDUDPtCe0OcCQAN9Va1HI5VnmLU4sxn3uJNmksCeyztUFerSD6cCykJcjudVQOEkFJmYWNUuXtbCSWIflbcyQFXghswmP9r0s3auzlwGtGCW1SMcMjpIP11JWjdWLwckzqWH_l74yRes")'></div>
+<div class="flex-1">
+<p class="font-bold text-sm">Pet Rescue</p>
+<div class="w-full bg-gray-200 dark:bg-gray-700 h-1.5 rounded-full mt-1">
+<div class="bg-primary h-full rounded-full w-1/4"></div>
+</div>
+<p class="text-[10px] text-gray-500 mt-1">Level 5 • 25% complete</p>
+</div>
+<button class="bg-primary/10 text-primary p-2 rounded-full">
+<span class="material-symbols-outlined">play_arrow</span>
+</button>
+</div>
+</div>
+<!-- Bottom Navigation (iOS Style) -->
+<div class="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-background-dark/90 backdrop-blur-md border-t border-gray-200 dark:border-white/10 flex justify-around items-center h-16 px-2 pb-2">
+<button class="flex flex-col items-center text-primary">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</button>
+<button class="flex flex-col items-center text-gray-400">
+<span class="material-symbols-outlined">sports_esports</span>
+<span class="text-[10px] font-medium">Games</span>
+</button>
+<button class="flex flex-col items-center text-gray-400">
+<span class="material-symbols-outlined">emoji_events</span>
+<span class="text-[10px] font-medium">Rank</span>
+</button>
+<button class="flex flex-col items-center text-gray-400">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</button>
+</div>
+</div>
+</body></html>

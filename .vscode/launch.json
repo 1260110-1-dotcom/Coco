@@ -47,6 +47,12 @@
             "name": "Open shape.html",
             "file": "c:\\Code\\Coco\\shape.html"
         }
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Open home.html",
+            "file": "c:\\Code\\Coco\\home.html"
+        }
 
     ]
 }

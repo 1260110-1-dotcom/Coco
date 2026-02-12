@@ -1,594 +1,287 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html class="light" lang="zh-TW">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎮 我的遊戲館 - 經典遊戲集合</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>🎮 Coco 遊戲中心 - 經典遊戲集合</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f0426e",
+                        "background-light": "#fdf8f9",
+                        "background-dark": "#221015",
+                        "pastel-blue": "#e0f2fe",
+                        "pastel-pink": "#fce7f3",
+                    },
+                    fontFamily: {
+                        "display": ["Spline Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Microsoft JhengHei', 'Segoe UI', sans-serif;
+        .custom-gradient {
+            background: linear-gradient(180deg, #fdf8f9 0%, #e0f2fe 100%);
         }
-
-        body {
-            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-            color: white;
-            position: relative;
-            overflow-x: hidden;
+        .dark .custom-gradient {
+            background: linear-gradient(180deg, #221015 0%, #1a0b0e 100%);
         }
-
-        .floating-bubbles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
+        .bg-clouds {
+            background-image: radial-gradient(circle at 20% 10%, rgba(255,255,255,0.8) 0%, transparent 20%),
+                              radial-gradient(circle at 80% 40%, rgba(255,255,255,0.8) 0%, transparent 15%);
         }
-
-        .floating-bubble {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: float 20s infinite linear;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); }
-            100% { transform: translateY(-100px) rotate(360deg); }
-        }
-
-        .game-hub-container {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border-radius: 25px;
-            padding: 40px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            max-width: 1200px;
-            width: 100%;
-            position: relative;
-            z-index: 2;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        h1 {
-            font-size: 4rem;
-            margin-bottom: 15px;
-            text-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
-            background: linear-gradient(90deg, #ff7e5f, #feb47b, #86a8e7, #91eae4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 300% auto;
-            animation: gradient 3s ease-in-out infinite;
-        }
-
-        @keyframes gradient {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .subtitle {
-            font-size: 1.3rem;
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .game-card {
-            background: linear-gradient(135deg, rgba(45, 45, 68, 0.8), rgba(61, 61, 92, 0.8));
-            border-radius: 20px;
-            padding: 30px;
-            text-decoration: none;
-            color: white;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            min-height: 220px;
-        }
-
-        .game-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: 0.6s;
-        }
-
-        .game-card:hover {
-            transform: translateY(-15px) scale(1.05);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.3);
-            background: linear-gradient(135deg, rgba(61, 61, 92, 0.9), rgba(77, 77, 115, 0.9));
-        }
-
-        .game-card:hover::before {
-            left: 100%;
-        }
-
         .game-icon {
-            font-size: 3.5rem;
-            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
-            transition: transform 0.3s;
+            font-size: 2.5rem;
+            filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.2));
         }
-
-        .game-card:hover .game-icon {
-            transform: scale(1.2) rotate(10deg);
+        .game-card-hover {
+            transition: all 0.3s ease;
         }
-
-        .game-info {
-            text-align: center;
-            z-index: 1;
+        .game-card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
-
-        .game-title {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #feb47b;
-        }
-
-        .game-description {
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.5;
-        }
-
-        .game-stats {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            margin-top: auto;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .game-stat {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .footer {
-            margin-top: 50px;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-        }
-
-        .sound-control {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-        }
-
-        .sound-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: white;
-            font-size: 1.2rem;
-        }
-
-        .sound-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
-        }
-
-        @media (max-width: 768px) {
-            .game-hub-container {
-                padding: 25px;
-            }
-            
-            h1 {
-                font-size: 2.8rem;
-            }
-            
-            .games-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 20px;
-            }
-            
-            .game-card {
-                padding: 25px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .subtitle {
-                font-size: 1.1rem;
-            }
-            
-            .games-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* 遊戲卡片特殊顏色 */
-        .game-card:nth-child(1) { border-color: rgba(78, 205, 196, 0.3); }
-        .game-card:nth-child(2) { border-color: rgba(255, 107, 107, 0.3); }
-        .game-card:nth-child(3) { border-color: rgba(134, 168, 231, 0.3); }
-        .game-card:nth-child(4) { border-color: rgba(255, 154, 158, 0.3); }
-        .game-card:nth-child(5) { border-color: rgba(250, 208, 196, 0.3); }
-        .game-card:nth-child(6) { border-color: rgba(145, 234, 228, 0.3); }
     </style>
 </head>
-<body>
-    <!-- 浮動背景泡泡 -->
-    <div class="floating-bubbles" id="floatingBubbles"></div>
-
-    <!-- 音效控制 -->
-    <div class="sound-control">
-        <button class="sound-btn" id="soundBtn" title="音效開關">
-            🔊
-        </button>
+<body class="font-display bg-background-light dark:bg-background-dark text-[#1b0d11] dark:text-white min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden custom-gradient bg-clouds">
+    <!-- Top Bar -->
+    <div class="flex items-center p-4 pb-2 justify-between">
+        <div class="flex size-12 shrink-0 items-center">
+            <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20 flex items-center justify-center bg-gradient-to-br from-pink-400 to-purple-500">
+                <span class="text-white font-bold text-lg">🎮</span>
+            </div>
+        </div>
+        <h2 class="text-primary text-xl font-bold leading-tight tracking-[-0.015em] flex-1 text-center">Coco 遊戲中心</h2>
+        <div class="flex w-12 items-center justify-end">
+            <button class="flex items-center justify-center rounded-full h-10 w-10 bg-white/50 dark:bg-white/10 text-primary">
+                <span class="material-symbols-outlined">search</span>
+            </button>
+        </div>
     </div>
 
-    <div class="game-hub-container">
-        <div class="header">
-            <h1>🎮 我的遊戲館</h1>
-            <p class="subtitle">精選經典遊戲集合，包含掃雷、貪吃蛇、五子棋、2048等經典遊戲，點擊卡片開始遊玩！</p>
-        </div>
-
-        <div class="games-grid">
-            <!-- 掃雷 -->
-            <a href="boom.html" class="game-card" data-game="minesweeper">
-                <div class="game-icon">💣</div>
-                <div class="game-info">
-                    <div class="game-title">掃雷</div>
-                    <div class="game-description">經典掃雷遊戲，考驗你的邏輯推理能力。避開地雷，標記所有安全區域！</div>
+    <!-- Welcome Banner -->
+    <div class="@container">
+        <div class="px-4 py-3">
+            <div class="w-full bg-gradient-to-r from-purple-500 to-pink-500 flex flex-col justify-end overflow-hidden rounded-xl min-h-[140px] shadow-lg relative group">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                <div class="relative p-4">
+                    <span class="bg-white/90 text-primary text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider">經典遊戲</span>
+                    <h3 class="text-white text-lg font-bold mt-1">精選遊戲集合</h3>
+                    <p class="text-white/90 text-sm mt-1">點擊卡片開始遊玩經典遊戲！</p>
                 </div>
-                <div class="game-stats">
-                    <div class="game-stat">🎯 策略遊戲</div>
-                    <div class="game-stat">⏱️ 休閒</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Title -->
+    <div class="flex items-center justify-between px-4 pt-4 pb-2">
+        <h2 class="text-[#1b0d11] dark:text-pink-100 text-[22px] font-bold leading-tight tracking-[-0.015em]">熱門遊戲</h2>
+        <button class="text-primary text-sm font-semibold">查看全部</button>
+    </div>
+
+    <!-- Horizontal Scroll List -->
+    <div class="flex overflow-y-auto [-ms-scrollbar-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div class="flex items-stretch p-4 gap-4">
+            <!-- 掃雷 -->
+            <a href="boom.html" class="flex h-full flex-1 flex-col gap-3 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-white/40 shadow-sm min-w-[180px] game-card-hover">
+                <div class="w-full bg-gradient-to-br from-yellow-400 to-orange-500 aspect-[4/3] flex items-center justify-center rounded-t-xl">
+                    <div class="game-icon">💣</div>
+                </div>
+                <div class="flex flex-col flex-1 justify-between p-3 pt-0 gap-3">
+                    <div>
+                        <p class="text-[#1b0d11] dark:text-white text-base font-bold leading-tight">掃雷</p>
+                        <p class="text-primary/70 text-xs font-medium">策略 • 經典</p>
+                    </div>
+                    <button class="flex w-full cursor-pointer items-center justify-center rounded-lg h-9 bg-primary text-white text-sm font-bold shadow-md active:scale-95 transition-transform">
+                        <span>遊玩</span>
+                    </button>
                 </div>
             </a>
 
             <!-- 貪吃蛇 -->
-            <a href="snake.html" class="game-card" data-game="snake">
-                <div class="game-icon">🐍</div>
-                <div class="game-info">
-                    <div class="game-title">貪吃蛇</div>
-                    <div class="game-description">操控小蛇吃掉食物變長，避免撞牆或咬到自己。穿牆模式已開啟！</div>
+            <a href="snake.html" class="flex h-full flex-1 flex-col gap-3 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-white/40 shadow-sm min-w-[180px] game-card-hover">
+                <div class="w-full bg-gradient-to-br from-green-400 to-emerald-600 aspect-[4/3] flex items-center justify-center rounded-t-xl">
+                    <div class="game-icon">🐍</div>
                 </div>
-                <div class="game-stats">
-                    <div class="game-stat">🎮 經典懷舊</div>
-                    <div class="game-stat">⚡ 動作</div>
-                </div>
-            </a>
-
-            <!-- 圖形遊戲 -->
-            <a href="shape.html" class="game-card" data-game="shape">
-                <div class="game-icon">✨</div>
-                <div class="game-info">
-                    <div class="game-title">3D粒子系統</div>
-                    <div class="game-description">使用手勢控制的3D粒子效果，張開/握拳控制粒子的擴張與收縮！</div>
-                </div>
-                <div class="game-stats">
-                    <div class="game-stat">🎨 視覺效果</div>
-                    <div class="game-stat">🤖 手勢控制</div>
-                </div>
-            </a>
-
-            <!-- 戳泡泡 -->
-            <a href="bouble.html" class="game-card" data-game="bubble">
-                <div class="game-icon">🎈</div>
-                <div class="game-info">
-                    <div class="game-title">戳泡泡大挑戰</div>
-                    <div class="game-description">60秒內戳破越多泡泡獲得越高分數！注意特殊泡泡的不同效果。</div>
-                </div>
-                <div class="game-stats">
-                    <div class="game-stat">🎯 反應速度</div>
-                    <div class="game-stat">💥 爽快</div>
+                <div class="flex flex-col flex-1 justify-between p-3 pt-0 gap-3">
+                    <div>
+                        <p class="text-[#1b0d11] dark:text-white text-base font-bold leading-tight">貪吃蛇</p>
+                        <p class="text-primary/70 text-xs font-medium">動作 • 懷舊</p>
+                    </div>
+                    <button class="flex w-full cursor-pointer items-center justify-center rounded-lg h-9 bg-primary text-white text-sm font-bold shadow-md active:scale-95 transition-transform">
+                        <span>遊玩</span>
+                    </button>
                 </div>
             </a>
 
             <!-- 五子棋 -->
-            <a href="move.html" class="game-card" data-game="gomoku">
-                <div class="game-icon">⚫⚪</div>
-                <div class="game-info">
-                    <div class="game-title">五子棋對弈</div>
-                    <div class="game-description">經典五子棋遊戲，支援雙人對戰和人機對戰。先連成五子者獲勝！</div>
+            <a href="move.html" class="flex h-full flex-1 flex-col gap-3 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-white/40 shadow-sm min-w-[180px] game-card-hover">
+                <div class="w-full bg-gradient-to-br from-gray-800 to-gray-600 aspect-[4/3] flex items-center justify-center rounded-t-xl">
+                    <div class="game-icon">⚫⚪</div>
                 </div>
-                <div class="game-stats">
-                    <div class="game-stat">🧠 策略思考</div>
-                    <div class="game-stat">🤝 雙人/單人</div>
-                </div>
-            </a>
-
-            <!-- 2048 -->
-            <a href="2048.html" class="game-card" data-game="2048">
-                <div class="game-icon">🔢</div>
-                <div class="game-info">
-                    <div class="game-title">2048數字益智</div>
-                    <div class="game-description">合併相同數字，目標達成2048方塊！考驗你的策略規劃能力。</div>
-                </div>
-                <div class="game-stats">
-                    <div class="game-stat">🧩 益智解謎</div>
-                    <div class="game-stat">📈 數學</div>
+                <div class="flex flex-col flex-1 justify-between p-3 pt-0 gap-3">
+                    <div>
+                        <p class="text-[#1b0d11] dark:text-white text-base font-bold leading-tight">五子棋</p>
+                        <p class="text-primary/70 text-xs font-medium">策略 • 對戰</p>
+                    </div>
+                    <button class="flex w-full cursor-pointer items-center justify-center rounded-lg h-9 bg-primary text-white text-sm font-bold shadow-md active:scale-95 transition-transform">
+                        <span>遊玩</span>
+                    </button>
                 </div>
             </a>
-        </div>
-
-        <div class="footer">
-            <p>🎮 遊戲館 v1.0 | 所有遊戲皆可直接在瀏覽器中遊玩 | 祝您遊戲愉快！</p>
         </div>
     </div>
 
-    <script>
-        // 音效控制
-        const soundBtn = document.getElementById('soundBtn');
-        let soundEnabled = true;
+    <!-- Section Title -->
+    <div class="flex items-center justify-between px-4 pt-4 pb-2">
+        <h2 class="text-[#1b0d11] dark:text-pink-100 text-[22px] font-bold leading-tight tracking-[-0.015em]">更多遊戲</h2>
+        <button class="text-primary text-sm font-semibold">查看全部</button>
+    </div>
 
-        // 音效資源
-        const soundEffects = {
-            click: new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA="),
-            hover: new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA="),
-            success: new Audio("data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=")
-        };
+    <!-- Grid Games -->
+    <div class="px-4 pb-4 grid grid-cols-2 gap-3">
+        <!-- 2048 -->
+        <a href="2048.html" class="flex flex-col gap-3 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-white/40 shadow-sm p-3 game-card-hover">
+            <div class="w-full bg-gradient-to-br from-blue-400 to-cyan-500 aspect-square flex items-center justify-center rounded-lg">
+                <div class="game-icon">🔢</div>
+            </div>
+            <div class="flex flex-col">
+                <p class="text-[#1b0d11] dark:text-white text-sm font-bold leading-tight">2048</p>
+                <p class="text-primary/70 text-xs font-medium">益智 • 數學</p>
+            </div>
+        </a>
 
-        // 初始化音效（使用Web Audio API）
-        function initSounds() {
-            try {
-                // 創建音效上下文
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                
-                // 創建點擊音效
-                createClickSound();
-                createHoverSound();
-                createSuccessSound();
-                
-                console.log('音效系統已初始化');
-            } catch (error) {
-                console.log('音效系統初始化失敗，使用靜音模式');
-                soundEnabled = false;
-                soundBtn.innerHTML = '🔇';
-            }
-        }
+        <!-- 戳泡泡 -->
+        <a href="bouble.html" class="flex flex-col gap-3 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-white/40 shadow-sm p-3 game-card-hover">
+            <div class="w-full bg-gradient-to-br from-pink-400 to-rose-500 aspect-square flex items-center justify-center rounded-lg">
+                <div class="game-icon">🎈</div>
+            </div>
+            <div class="flex flex-col">
+                <p class="text-[#1b0d11] dark:text-white text-sm font-bold leading-tight">戳泡泡</p>
+                <p class="text-primary/70 text-xs font-medium">反應 • 爽快</p>
+            </div>
+        </a>
 
-        // 創建點擊音效
-        function createClickSound() {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.frequency.value = 800;
-                oscillator.type = 'sine';
-                
-                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-                
-                oscillator.start();
-                oscillator.stop(audioContext.currentTime + 0.1);
-                
-                soundEffects.click = { context: audioContext, play: () => {
-                    const newOscillator = audioContext.createOscillator();
-                    const newGain = audioContext.createGain();
-                    
-                    newOscillator.connect(newGain);
-                    newGain.connect(audioContext.destination);
-                    
-                    newOscillator.frequency.value = 800;
-                    newOscillator.type = 'sine';
-                    
-                    newGain.gain.setValueAtTime(0.3, audioContext.currentTime);
-                    newGain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-                    
-                    newOscillator.start();
-                    newOscillator.stop(audioContext.currentTime + 0.1);
-                }};
-            } catch (error) {
-                console.log('無法創建點擊音效');
-            }
-        }
+        <!-- 3D粒子系統 -->
+        <a href="shape.html" class="flex flex-col gap-3 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-white/40 shadow-sm p-3 game-card-hover">
+            <div class="w-full bg-gradient-to-br from-purple-400 to-violet-600 aspect-square flex items-center justify-center rounded-lg">
+                <div class="game-icon">✨</div>
+            </div>
+            <div class="flex flex-col">
+                <p class="text-[#1b0d11] dark:text-white text-sm font-bold leading-tight">3D粒子</p>
+                <p class="text-primary/70 text-xs font-medium">視覺 • 手勢</p>
+            </div>
+        </a>
 
-        // 創建懸停音效
-        function createHoverSound() {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                
-                soundEffects.hover = { context: audioContext, play: () => {
-                    const oscillator = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    
-                    oscillator.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    
-                    oscillator.frequency.value = 600;
-                    oscillator.type = 'sine';
-                    
-                    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
-                    
-                    oscillator.start();
-                    oscillator.stop(audioContext.currentTime + 0.2);
-                }};
-            } catch (error) {
-                console.log('無法創建懸停音效');
-            }
-        }
+        <!-- 其他遊戲 -->
+        <a href="gmae.html" class="flex flex-col gap-3 rounded-xl bg-white/60 dark:bg-white/5 backdrop-blur-sm border border-white/40 shadow-sm p-3 game-card-hover">
+            <div class="w-full bg-gradient-to-br from-amber-400 to-orange-500 aspect-square flex items-center justify-center rounded-lg">
+                <div class="game-icon">🎯</div>
+            </div>
+            <div class="flex flex-col">
+                <p class="text-[#1b0d11] dark:text-white text-sm font-bold leading-tight">更多遊戲</p>
+                <p class="text-primary/70 text-xs font-medium">探索 • 發現</p>
+            </div>
+        </a>
+    </div>
 
-        // 創建成功音效
-        function createSuccessSound() {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                
-                soundEffects.success = { context: audioContext, play: () => {
-                    // 創建一個簡單的成功音效
-                    const oscillator1 = audioContext.createOscillator();
-                    const oscillator2 = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-                    
-                    oscillator1.connect(gainNode);
-                    oscillator2.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-                    
-                    oscillator1.frequency.value = 523.25; // C5
-                    oscillator2.frequency.value = 659.25; // E5
-                    oscillator1.type = 'sine';
-                    oscillator2.type = 'sine';
-                    
-                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-                    
-                    oscillator1.start();
-                    oscillator2.start();
-                    oscillator1.stop(audioContext.currentTime + 0.5);
-                    oscillator2.stop(audioContext.currentTime + 0.5);
-                }};
-            } catch (error) {
-                console.log('無法創建成功音效');
-            }
-        }
+    <!-- Decorative Elements Section -->
+    <div class="px-4 py-2 flex justify-center gap-8 opacity-40">
+        <span class="material-symbols-outlined text-primary text-3xl">cloud</span>
+        <span class="material-symbols-outlined text-primary text-2xl">star</span>
+        <span class="material-symbols-outlined text-primary text-3xl">cloud</span>
+    </div>
 
-        // 播放音效
-        function playSound(soundName) {
-            if (!soundEnabled) return;
-            
-            try {
-                if (soundEffects[soundName] && soundEffects[soundName].play) {
-                    soundEffects[soundName].play();
+    <!-- Recently Played Section -->
+    <h3 class="text-[#1b0d11] dark:text-pink-100 text-lg font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-2">遊戲說明</h3>
+    <div class="px-4 pb-20 space-y-3">
+        <div class="flex items-center gap-4 bg-white/40 dark:bg-white/5 p-3 rounded-xl border border-white/30">
+            <div class="size-16 rounded-lg bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
+                <span class="text-2xl">💣</span>
+            </div>
+            <div class="flex-1">
+                <p class="font-bold text-sm">掃雷遊戲</p>
+                <p class="text-xs text-gray-600 dark:text-gray-300 mt-1">經典掃雷遊戲，考驗你的邏輯推理能力。避開地雷，標記所有安全區域！</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4 bg-white/40 dark:bg-white/5 p-3 rounded-xl border border-white/30">
+            <div class="size-16 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center">
+                <span class="text-2xl">🐍</span>
+            </div>
+            <div class="flex-1">
+                <p class="font-bold text-sm">貪吃蛇遊戲</p>
+                <p class="text-xs text-gray-600 dark:text-gray-300 mt-1">操控小蛇吃掉食物變長，避免撞牆或咬到自己。穿牆模式已開啟！</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation (iOS Style) -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-background-dark/90 backdrop-blur-md border-t border-gray-200 dark:border-white/10 flex justify-around items-center h-16 px-2 pb-2">
+        <button class="flex flex-col items-center text-primary">
+            <span class="material-symbols-outlined">home</span>
+            <span class="text-[10px] font-medium">首頁</span>
+        </button>
+        <a href="#games" class="flex flex-col items-center text-gray-400">
+            <span class="material-symbols-outlined">sports_esports</span>
+            <span class="text-[10px] font-medium">遊戲</span>
+        </a>
+        <button class="flex flex-col items-center text-gray-400">
+            <span class="material-symbols-outlined">emoji_events</span>
+            <span class="text-[10px] font-medium">排名</span>
+        </button>
+        <button class="flex flex-col items-center text-gray-400">
+            <span class="material-symbols-outlined">person</span>
+            <span class="text-[10px] font-medium">個人</span>
+        </button>
+    </div>
+</div>
+
+<script>
+    // 簡單的交互效果
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🎮 Coco 遊戲中心已載入！');
+        
+        // 為遊戲卡片添加點擊效果
+        const gameCards = document.querySelectorAll('.game-card-hover');
+        gameCards.forEach(card => {
+            card.addEventListener('click', function(e) {
+                // 添加點擊反饋
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+                
+                // 檢查是否為有效的連結
+                const href = this.getAttribute('href');
+                if (!href || href === '#') {
+                    e.preventDefault();
+                    alert('遊戲即將推出，敬請期待！');
                 }
-            } catch (error) {
-                console.log(`播放音效 ${soundName} 失敗`);
-            }
-        }
-
-        // 音效控制
-        soundBtn.addEventListener('click', () => {
-            soundEnabled = !soundEnabled;
-            soundBtn.innerHTML = soundEnabled ? '🔊' : '🔇';
-            playSound('click');
-            
-            // 保存設置到 localStorage
-            localStorage.setItem('gameHubSoundEnabled', soundEnabled);
-        });
-
-        // 初始化浮動泡泡
-        function initFloatingBubbles() {
-            const container = document.getElementById('floatingBubbles');
-            const bubbleCount = 15;
-            
-            for (let i = 0; i < bubbleCount; i++) {
-                const bubble = document.createElement('div');
-                bubble.className = 'floating-bubble';
-                
-                const size = Math.random() * 60 + 20;
-                const left = Math.random() * 100;
-                const duration = Math.random() * 30 + 20;
-                const delay = Math.random() * 10;
-                
-                bubble.style.width = `${size}px`;
-                bubble.style.height = `${size}px`;
-                bubble.style.left = `${left}%`;
-                bubble.style.animationDuration = `${duration}s`;
-                bubble.style.animationDelay = `${delay}s`;
-                
-                container.appendChild(bubble);
-            }
-        }
-
-        // 添加遊戲卡片交互
-        function initGameCards() {
-            const gameCards = document.querySelectorAll('.game-card');
-            
-            gameCards.forEach(card => {
-                // 懸停效果
-                card.addEventListener('mouseenter', () => {
-                    playSound('hover');
-                });
-                
-                // 點擊效果
-                card.addEventListener('click', (e) => {
-                    playSound('click');
-                    
-                    // 添加點擊反饋
-                    card.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        card.style.transform = '';
-                    }, 150);
-                    
-                    // 檢查鏈接是否存在
-                    const href = card.getAttribute('href');
-                    if (!href || href === '#') {
-                        e.preventDefault();
-                        playSound('success');
-                        
-                        // 顯示提示訊息
-                        const gameName = card.querySelector('.game-title').textContent;
-                        alert(`🎮 即將進入 ${gameName}！\n\n如果頁面未正確跳轉，請檢查該遊戲的HTML文件是否存在。`);
-                    }
-                });
             });
-        }
-
-        // 頁面載入時初始化
-        window.addEventListener('DOMContentLoaded', () => {
-            console.log('🎮 我的遊戲館正在初始化...');
-            
-            // 從 localStorage 載入音效設置
-            const savedSoundSetting = localStorage.getItem('gameHubSoundEnabled');
-            if (savedSoundSetting !== null) {
-                soundEnabled = savedSoundSetting === 'true';
-                soundBtn.innerHTML = soundEnabled ? '🔊' : '🔇';
-            }
-            
-            // 初始化各項功能
-            initFloatingBubbles();
-            initSounds();
-            initGameCards();
-            
-            // 播放歡迎音效
-            setTimeout(() => {
-                playSound('success');
-            }, 500);
-            
-            console.log('🎮 遊戲館初始化完成！');
         });
-    </script>
+        
+        // 為按鈕添加點擊效果
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                if (!this.closest('a')) { // 如果不是連結內的按鈕
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 100);
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
